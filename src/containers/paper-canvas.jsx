@@ -222,6 +222,7 @@ class PaperCanvas extends React.Component {
         // the viewBox to start at (0, 0), and we need to translate it back for some costumes to render
         // correctly.
         const parser = new DOMParser();
+        const serializer = new XMLSerializer();
         const svgDom = parser.parseFromString(svg, 'text/xml');
         const viewBox = svgDom.documentElement.attributes.viewBox ?
             svgDom.documentElement.attributes.viewBox.value.match(/\S+/g) : null;
@@ -231,7 +232,28 @@ class PaperCanvas extends React.Component {
             }
         }
 
-        paper.project.importSVG(svg, {
+        // TW: paper.js for some reason ignores rx or ry values if it's missing the other.
+        svgDom.querySelectorAll('[rx], [ry]').forEach(element => {
+            if (
+                element.hasAttribute('rx') &&
+                !element.hasAttribute('ry')
+            ) {
+                element.setAttribute(
+                    element.getAttribute('rx'),
+                    'ry'
+                );
+            } else if (
+                !element.hasAttribute('rx') &&
+                element.hasAttribute('ry')
+            ) {
+                element.setAttribute(
+                    'rx',
+                    element.getAttribute('ry')
+                );
+            }
+        });
+
+        paper.project.importSVG(serializer.serializeToString(svgDom), {
             expandShapes: true,
             insert: false,
             onLoad: function (item) {
