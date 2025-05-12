@@ -2,6 +2,10 @@
 
 Modified version of scratch-paint for TurboWarp
 
+## Security model
+
+**TurboWarp/scratch-paint considers the SVG or bitmap inputs to be trusted**. That means the library won't sanitize anything for you, so it's your job to put them through something like scratch-svg-renderer's `sanitizeSvg` before passing anything in.
+
 ## Building
 
 ```bash
