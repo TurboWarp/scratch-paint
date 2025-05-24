@@ -18,7 +18,6 @@ import {
 import {HANDLE_RATIO, ensureClockwise} from '../helper/math';
 import {getRaster} from '../helper/layer';
 import {flipBitmapHorizontal, flipBitmapVertical, selectAllBitmap} from '../helper/bitmap';
-import {ungroupItems} from '../helper/group';
 import Formats, {isBitmap} from '../lib/format';
 import Modes from '../lib/modes';
 
@@ -193,17 +192,28 @@ class ModeTools extends React.Component {
         }
     }
     handleCenterSelection () {
-        let _selectedItems = getSelectedRootItems();
-        if (_selectedItems.length === 0) {
+        let selectedItems = getSelectedRootItems();
+        if (selectedItems.length === 0) {
             if (isBitmap(this.props.format)) {
                 return;
             }
-            _selectedItems = getAllRootItems();
+            selectedItems = getAllRootItems();
         }
-        const selectedItems = _selectedItems;
+
+        for (const item of selectedItems) {
+            item.data.originalIndex = item.index;
+        }
+
         const group = new paper.Group(selectedItems);
         group.position = new paper.Point(this.props.width, this.props.height);
-        ungroupItems([group]);
+        for (let i = 0; i < selectedItems.length; i++) {
+            const item = selectedItems[i];
+            group.layer.insertChild(item.data.originalIndex, item);
+            delete item.data.originalIndex;
+        }
+        group.remove();
+
+        this.props.setSelectedItems(this.props.format);
         this.props.onUpdateImage();
     }
     handlePasteFromClipboard () {
