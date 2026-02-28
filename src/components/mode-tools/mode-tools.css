@@ -30,3 +30,39 @@
     height: 2.85rem; /* for the second row so the dashed borders are equal in size */
     align-items: center;
 }
+
+.mod-unselect {
+    user-select: none;
+}
+
+.mod-context-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.mod-menu-item {
+    display: flex;
+    margin: 0 -$grid-unit;
+    min-width: 6.25rem;
+    padding: calc(3 * $grid-unit);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.1s ease;
+    align-items: center;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.mod-menu-item:hover {
+    background: $looks-transparent;
+}
+
+.menu-item-icon {
+    margin-right: calc(2 * $grid-unit);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+[dir="rtl"] .menu-item-icon {
+    margin-right: 0;
+    margin-left: calc(2 * $grid-unit);
+}
