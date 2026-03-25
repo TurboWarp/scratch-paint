@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
+import MediaQuery from 'react-responsive';
 
 import {changeBrushSize} from '../../reducers/brush-mode';
 import {changeBrushSize as changeEraserSize} from '../../reducers/eraser-mode';
@@ -21,6 +22,10 @@ import Modes from '../../lib/modes';
 import Formats, {isBitmap, isVector} from '../../lib/format';
 import {hideLabel} from '../../lib/hide-label';
 import styles from './mode-tools.css';
+import layout from '../../lib/layout-constants';
+import Dropdown from '../dropdown/dropdown.jsx';
+import Button from '../button/button.jsx';
+import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 
 import copyIcon from '!../../tw-recolor/build!./icons/copy.svg';
 import cutIcon from '!../../tw-recolor/build!./icons/cut.svg';
@@ -122,6 +127,11 @@ const ModeToolsComponent = props => {
             defaultMessage: 'Rectangle Curve',
             description: 'Label for the rectangle curve input',
             id: 'paint.modeTools.rectRadius'
+        },
+        more: {
+            defaultMessage: 'More',
+            description: 'Label for dropdown to access more action buttons',
+            id: 'paint.paintEditor.more'
         }
     });
 
@@ -230,11 +240,11 @@ const ModeToolsComponent = props => {
                         onClick={props.onCopyToClipboard}
                     />
                     <LabeledIconButton
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={cutIcon}
-                            title={props.intl.formatMessage(messages.cut)}
-                            onClick={props.onCutToClipboard}
-                        />
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={cutIcon}
+                        title={props.intl.formatMessage(messages.cut)}
+                        onClick={props.onCutToClipboard}
+                    />
                     <LabeledIconButton
                         disabled={!(props.clipboardItems.length > 0)}
                         hideLabel={hideLabel(props.intl.locale)}
@@ -251,26 +261,84 @@ const ModeToolsComponent = props => {
                         onClick={props.onDelete}
                     />
                 </InputGroup>
-                <InputGroup className={classNames(styles.modLabeledIconHeight)}>
-                    <LabeledIconButton
-                        hideLabel={props.intl.locale !== 'en'}
-                        imgSrc={flipHorizontalIcon}
-                        title={props.intl.formatMessage(messages.flipHorizontal)}
-                        onClick={props.onFlipHorizontal}
-                    />
-                    <LabeledIconButton
-                        hideLabel={props.intl.locale !== 'en'}
-                        imgSrc={flipVerticalIcon}
-                        title={props.intl.formatMessage(messages.flipVertical)}
-                        onClick={props.onFlipVertical}
-                    />
-                    <LabeledIconButton
-                        hideLabel={props.intl.locale !== 'en'}
-                        imgSrc={centerIcon}
-                        title={props.intl.formatMessage(messages.center)}
-                        onClick={props.onCenterSelection}
-                    />
-                </InputGroup>
+                <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
+                    <InputGroup className={classNames(styles.modLabeledIconHeight)}>
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={flipHorizontalIcon}
+                            title={props.intl.formatMessage(messages.flipHorizontal)}
+                            onClick={props.onFlipHorizontal}
+                        />
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={flipVerticalIcon}
+                            title={props.intl.formatMessage(messages.flipVertical)}
+                            onClick={props.onFlipVertical}
+                        />
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={centerIcon}
+                            title={props.intl.formatMessage(messages.center)}
+                            onClick={props.onCenterSelection}
+                        />
+                    </InputGroup>
+                </MediaQuery>
+                <MediaQuery maxWidth={layout.fullSizeEditorMinWidth - 1}>
+                    <InputGroup>
+                        <Dropdown
+                            className={styles.modUnselect}
+                            enterExitTransitionDurationMs={20}
+                            popoverContent={
+                                <InputGroup
+                                    className={styles.modContextMenu}
+                                >
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onFlipHorizontal}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={flipHorizontalIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.flipHorizontal)}</span>
+                                        }
+                                    </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onFlipVertical}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={flipVerticalIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.flipVertical)}</span>
+                                        }
+                                    </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onCenterSelection}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={centerIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.center)}</span>
+                                        }
+                                    </Button>
+                                </InputGroup>
+                            }
+                            tipSize={.01}
+                        >
+                            {props.intl.formatMessage(messages.more)}
+                        </Dropdown>
+                    </InputGroup>
+                </MediaQuery>
             </div>
         );
     case Modes.BIT_TEXT:
