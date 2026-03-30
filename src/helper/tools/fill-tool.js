@@ -12,12 +12,14 @@ class FillTool extends paper.Tool {
      * @param {function} setHoveredItem Callback to set the hovered item
      * @param {function} clearHoveredItem Callback to clear the hovered item
      * @param {!function} onUpdateImage A callback to call when the image visibly changes
+     * @param {!function} onUpdateImage Callback to add a color to the recent colors list
      */
-    constructor (setHoveredItem, clearHoveredItem, onUpdateImage) {
+    constructor (setHoveredItem, clearHoveredItem, onUpdateImage, onAddRecentColor) {
         super();
         this.setHoveredItem = setHoveredItem;
         this.clearHoveredItem = clearHoveredItem;
         this.onUpdateImage = onUpdateImage;
+        this.onAddRecentColor = onAddRecentColor;
 
         // We have to set these functions instead of just declaring them because
         // paper.js tools hook up the listeners in the setter functions.
@@ -196,6 +198,7 @@ class FillTool extends paper.Tool {
             this.fillProperty = null;
             this.addedFillItem = null;
             this.fillItemOrigColor = null;
+            if (this.fillColor) this.onAddRecentColor(this.fillColor, this.fillColor2, this.gradientType);
             this.onUpdateImage();
         }
     }

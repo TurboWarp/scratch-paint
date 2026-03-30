@@ -27,14 +27,15 @@ const ColorButtonComponent = props => (
     <div
         className={styles.colorButton}
         onClick={props.onClick}
+        style={props.size ? {width: props.size, height: props.size} : {} }
     >
         <div
             className={classNames(styles.colorButtonSwatch, {
                 [styles.outlineSwatch]: props.outline && !(props.color === MIXED)
-            })}
-            style={{
+            }, props.noArrow !== true ? styles.colorButtonSwatchWithArrow : null)}
+            style={Object.assign({
                 background: colorToBackground(props.color, props.color2, props.gradientType)
-            }}
+            }, props.size ? {flexBasis: props.size} : {} )}
         >
             {props.color === null && (props.gradientType === GradientTypes.SOLID || props.color2 === null) ? (
                 <img
@@ -50,7 +51,7 @@ const ColorButtonComponent = props => (
                 />
             ) : null))}
         </div>
-        <div className={styles.colorButtonArrow}>▾</div>
+        {props.noArrow !== true && <div className={styles.colorButtonArrow}>▾</div>}
     </div>
 );
 
@@ -59,11 +60,14 @@ ColorButtonComponent.propTypes = {
     color2: PropTypes.string,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     onClick: PropTypes.func.isRequired,
-    outline: PropTypes.bool.isRequired
+    outline: PropTypes.bool.isRequired,
+    noArrow: PropTypes.bool,
+    size: PropTypes.string
 };
 
 ColorButtonComponent.defaultProps = {
-    outline: false
+    outline: false,
+    noArrow: false
 };
 
 export default ColorButtonComponent;
