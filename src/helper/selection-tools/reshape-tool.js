@@ -12,6 +12,8 @@ import PointTool from './point-tool';
 import HandleTool from './handle-tool';
 import SelectionBoxTool from './selection-box-tool';
 
+const NUDGE_MORE_MULTIPLIER = 15;
+
 /** Modes of the reshape tool, which can do many things depending on how it's used. */
 const ReshapeModes = keyMirror({
     FILL: null,
@@ -315,7 +317,8 @@ class ReshapeTool extends paper.Tool {
             return;
         }
 
-        const nudgeAmount = 1 / paper.view.zoom;
+        let nudgeAmount = 1 / paper.view.zoom;
+        if (event.modifiers.shift) nudgeAmount *= NUDGE_MORE_MULTIPLIER;
         const selected = getSelectedLeafItems();
         if (selected.length === 0) return;
 
