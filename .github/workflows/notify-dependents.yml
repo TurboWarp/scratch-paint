@@ -18,11 +18,3 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/Nitro-Bolt/scratch-gui/dispatches \
             -d '{"event_type":"upstream-updated","client_payload":{"source":"scratch-paint"}}'
-
-      - name: Trigger desktop update
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.CASCADE_PAT }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/Nitro-Bolt/desktop/dispatches \
-            -d '{"event_type":"upstream-updated","client_payload":{"source":"scratch-paint"}}'
