@@ -416,7 +416,7 @@ const ModeToolsComponent = props => {
                     range
                     small
                     max={MAX_STROKE_WIDTH}
-                    min="1"
+                    min="0"
                     type="number"
                     value={currentRadiusValue}
                     onSubmit={changeFunction}

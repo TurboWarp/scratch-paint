@@ -11,7 +11,7 @@ const reducer = function (state, action) {
             log.warn(`Invalid corner radius: ${action.rectRadius}`);
             return state;
         }
-        return {rectRadius: Math.max(1, action.rectRadius)};
+        return {rectRadius: Math.max(0, action.rectRadius)};
     default:
         return state;
     }
