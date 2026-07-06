@@ -6,6 +6,7 @@ import MediaQuery from 'react-responsive';
 
 import {shouldShowGroup, shouldShowUngroup} from '../../helper/group';
 import {shouldShowBringForward, shouldShowSendBackward} from '../../helper/order';
+import {shouldShowMask} from '../../helper/intersecting.js';
 
 import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
 import Button from '../button/button.jsx';
@@ -29,6 +30,7 @@ import sendForwardIcon from '!../../tw-recolor/build!./icons/send-forward.svg';
 import sendFrontIcon from '!../../tw-recolor/build!./icons/send-front.svg';
 import undoIcon from '!../../tw-recolor/build!./icons/undo.svg';
 import ungroupIcon from '!../../tw-recolor/build!./icons/ungroup.svg';
+import maskIcon from '!../../tw-recolor/build!./icons/mask.svg';
 import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
@@ -77,6 +79,11 @@ const messages = defineMessages({
         defaultMessage: 'Back',
         description: 'Label for the `Send to back of canvas` button',
         id: 'paint.paintEditor.back'
+    },
+    mask: {
+        defaultMessage: 'Mask',
+        description: 'Label for the `Mask intersections` button',
+        id: 'paint.paintEditor.mask'
     },
     more: {
         defaultMessage: 'More',
@@ -202,7 +209,7 @@ const FixedToolsComponent = props => {
 
             {isVector(props.format) ?
                 <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
-                    <InputGroup className={styles.row}>
+                    <InputGroup className={styles.modDashedBorder}>
                         <LabeledIconButton
                             disabled={!shouldShowBringForward()}
                             hideLabel={hideLabel(props.intl.locale)}
@@ -229,6 +236,19 @@ const FixedToolsComponent = props => {
                         />
                     </InputGroup> */}
                 </MediaQuery> : null
+            }
+            
+            {/* Masking */}
+            {isVector(props.format) ?
+                <InputGroup className={styles.row}>
+                    <LabeledIconButton
+                        disabled={!shouldShowMask()}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={maskIcon}
+                        title={props.intl.formatMessage(messages.mask)}
+                        onClick={props.onMask}
+                    />
+                </InputGroup> : null
             }
             {isVector(props.format) ?
                 <MediaQuery maxWidth={layout.fullSizeEditorMinWidth - 1}>
@@ -310,6 +330,7 @@ FixedToolsComponent.propTypes = {
     onUndo: PropTypes.func.isRequired,
     onUngroup: PropTypes.func.isRequired,
     onUpdateName: PropTypes.func.isRequired,
+    onMask: PropTypes.func.isRequired,
     rtl: PropTypes.bool.isRequired,
     width: PropTypes.number
 };

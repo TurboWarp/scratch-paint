@@ -14,6 +14,7 @@ import {setLayout} from '../reducers/layout';
 import {getSelectedLeafItems} from '../helper/selection';
 import {bringToFront, sendBackward, sendToBack, bringForward} from '../helper/order';
 import {groupSelection, ungroupSelection} from '../helper/group';
+import {mask} from '../helper/intersecting.js';
 
 import Formats, {isBitmap} from '../lib/format';
 import bindAll from 'lodash.bindall';
@@ -28,7 +29,8 @@ class FixedTools extends React.Component {
             'handleSendToFront',
             'handleSetSelectedItems',
             'handleGroup',
-            'handleUngroup'
+            'handleUngroup',
+            'handleMask'
         ]);
     }
     handleGroup () {
@@ -49,6 +51,9 @@ class FixedTools extends React.Component {
     handleSendToFront () {
         bringToFront(this.props.onUpdateImage);
     }
+    handleMask () {
+        mask(this.props.onUpdateImage);
+    }
     handleSetSelectedItems () {
         this.props.setSelectedItems(this.props.format);
     }
@@ -68,6 +73,7 @@ class FixedTools extends React.Component {
                 onUngroup={this.handleUngroup}
                 onUpdateImage={this.props.onUpdateImage}
                 onUpdateName={this.props.onUpdateName}
+                onMask={this.handleMask}
                 width={this.props.width}
             />
         );
@@ -84,6 +90,7 @@ FixedTools.propTypes = {
     onUndo: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
     onUpdateName: PropTypes.func.isRequired,
+    onMask: PropTypes.func.isRequired,
     setSelectedItems: PropTypes.func.isRequired,
     width: PropTypes.number
 };
