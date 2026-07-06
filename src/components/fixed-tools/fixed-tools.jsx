@@ -6,7 +6,7 @@ import MediaQuery from 'react-responsive';
 
 import {shouldShowGroup, shouldShowUngroup} from '../../helper/group';
 import {shouldShowBringForward, shouldShowSendBackward} from '../../helper/order';
-import {shouldShowMask} from '../../helper/intersecting.js';
+import {shouldShowMask, shouldShowSubtract} from '../../helper/intersecting.js';
 
 import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
 import Button from '../button/button.jsx';
@@ -31,6 +31,7 @@ import sendFrontIcon from '!../../tw-recolor/build!./icons/send-front.svg';
 import undoIcon from '!../../tw-recolor/build!./icons/undo.svg';
 import ungroupIcon from '!../../tw-recolor/build!./icons/ungroup.svg';
 import maskIcon from '!../../tw-recolor/build!./icons/mask.svg';
+import subtractIcon from '!../../tw-recolor/build!./icons/subtract.svg';
 import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
@@ -84,6 +85,11 @@ const messages = defineMessages({
         defaultMessage: 'Mask',
         description: 'Label for the `Mask intersections` button',
         id: 'paint.paintEditor.mask'
+    },
+    subtract: {
+        defaultMessage: 'Subtract',
+        description: 'Label for the `Subtract intersections` button',
+        id: 'paint.paintEditor.subtract'
     },
     more: {
         defaultMessage: 'More',
@@ -238,7 +244,7 @@ const FixedToolsComponent = props => {
                 </MediaQuery> : null
             }
             
-            {/* Masking */}
+            {/* Masking & Subtracting */}
             {isVector(props.format) ?
                 <InputGroup className={styles.row}>
                     <LabeledIconButton
@@ -247,6 +253,13 @@ const FixedToolsComponent = props => {
                         imgSrc={maskIcon}
                         title={props.intl.formatMessage(messages.mask)}
                         onClick={props.onMask}
+                    />
+                    <LabeledIconButton
+                        disabled={!shouldShowSubtract()}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={subtractIcon}
+                        title={props.intl.formatMessage(messages.subtract)}
+                        onClick={props.onSubtract}
                     />
                 </InputGroup> : null
             }

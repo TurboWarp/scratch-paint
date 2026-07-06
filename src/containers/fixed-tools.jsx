@@ -14,7 +14,7 @@ import {setLayout} from '../reducers/layout';
 import {getSelectedLeafItems} from '../helper/selection';
 import {bringToFront, sendBackward, sendToBack, bringForward} from '../helper/order';
 import {groupSelection, ungroupSelection} from '../helper/group';
-import {mask} from '../helper/intersecting.js';
+import {mask, subtract} from '../helper/intersecting.js';
 
 import Formats, {isBitmap} from '../lib/format';
 import bindAll from 'lodash.bindall';
@@ -30,7 +30,8 @@ class FixedTools extends React.Component {
             'handleSetSelectedItems',
             'handleGroup',
             'handleUngroup',
-            'handleMask'
+            'handleMask',
+            'handleSubtract'
         ]);
     }
     handleGroup () {
@@ -54,6 +55,9 @@ class FixedTools extends React.Component {
     handleMask () {
         mask(this.props.onUpdateImage);
     }
+    handleSubtract() {
+        subtract(this.props.onUpdateImage);
+    }
     handleSetSelectedItems () {
         this.props.setSelectedItems(this.props.format);
     }
@@ -74,6 +78,7 @@ class FixedTools extends React.Component {
                 onUpdateImage={this.props.onUpdateImage}
                 onUpdateName={this.props.onUpdateName}
                 onMask={this.handleMask}
+                onSubtract={this.handleSubtract}
                 width={this.props.width}
             />
         );
@@ -91,6 +96,7 @@ FixedTools.propTypes = {
     onUpdateImage: PropTypes.func.isRequired,
     onUpdateName: PropTypes.func.isRequired,
     onMask: PropTypes.func.isRequired,
+    onSubtract: PropTypes.func.isRequired,
     setSelectedItems: PropTypes.func.isRequired,
     width: PropTypes.number
 };
