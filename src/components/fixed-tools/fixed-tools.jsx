@@ -252,29 +252,31 @@ const FixedToolsComponent = props => {
             
             {/* Intersection Modifiers */}
             {isVector(props.format) ?
-                <InputGroup className={styles.row}>
-                    <LabeledIconButton
-                        disabled={!shouldShowMask()}
-                        hideLabel={hideLabel(props.intl.locale)}
-                        imgSrc={maskIcon}
-                        title={props.intl.formatMessage(messages.mask)}
-                        onClick={props.onMask}
-                    />
-                    <LabeledIconButton
-                        disabled={!shouldShowSubtract()}
-                        hideLabel={hideLabel(props.intl.locale)}
-                        imgSrc={subtractIcon}
-                        title={props.intl.formatMessage(messages.subtract)}
-                        onClick={props.onSubtract}
-                    />
-                    <LabeledIconButton
-                        disabled={!shouldShowFilter()}
-                        hideLabel={hideLabel(props.intl.locale)}
-                        imgSrc={filterIcon}
-                        title={props.intl.formatMessage(messages.filter)}
-                        onClick={props.onFilter}
-                    />
-                </InputGroup> : null
+                <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
+                    <InputGroup className={styles.row}>
+                        <LabeledIconButton
+                            disabled={!shouldShowMask()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={maskIcon}
+                            title={props.intl.formatMessage(messages.mask)}
+                            onClick={props.onMask}
+                        />
+                        <LabeledIconButton
+                            disabled={!shouldShowSubtract()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={subtractIcon}
+                            title={props.intl.formatMessage(messages.subtract)}
+                            onClick={props.onSubtract}
+                        />
+                        <LabeledIconButton
+                            disabled={!shouldShowFilter()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={filterIcon}
+                            title={props.intl.formatMessage(messages.filter)}
+                            onClick={props.onFilter}
+                        />
+                    </InputGroup>
+                </MediaQuery> : null
             }
             {isVector(props.format) ?
                 <MediaQuery maxWidth={layout.fullSizeEditorMinWidth - 1}>
@@ -314,6 +316,48 @@ const FixedToolsComponent = props => {
                                             src={sendBackIcon}
                                         />
                                         <span>{props.intl.formatMessage(messages.back)}</span>
+                                    </Button>
+                                    <Button
+                                        className={classNames(styles.modMenuItem, {
+                                            [styles.modDisabled]: !shouldShowMask()
+                                        })}
+                                        disabled={!shouldShowMask()}
+                                        onClick={props.onMask}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={maskIcon}
+                                        />
+                                        <span>{props.intl.formatMessage(messages.mask)}</span>
+                                    </Button>
+                                    <Button
+                                        className={classNames(styles.modMenuItem, {
+                                            [styles.modDisabled]: !shouldShowSubtract()
+                                        })}
+                                        disabled={!shouldShowSubtract()}
+                                        onClick={props.onSubtract}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={subtractIcon}
+                                        />
+                                        <span>{props.intl.formatMessage(messages.subtract)}</span>
+                                    </Button>
+                                    <Button
+                                        className={classNames(styles.modMenuItem, {
+                                            [styles.modDisabled]: !shouldShowFilter()
+                                        })}
+                                        disabled={!shouldShowFilter()}
+                                        onClick={props.onFilter}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={filterIcon}
+                                        />
+                                        <span>{props.intl.formatMessage(messages.filter)}</span>
                                     </Button>
 
                                     {/* To be rotation point */}
