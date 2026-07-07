@@ -37,6 +37,25 @@ const subtract = function (onUpdateImage) {
     onUpdateImage(result);
 };
 
+const filter = function (onUpdateImage) {
+    const [target, ...filters] = getSelectedRootItems();
+    let result = target;
+
+    filters.forEach(filter => {
+        let next = result.intersect(filter);
+        filter.remove();
+        result.remove();
+        result = next;
+    });
+
+    const lastFilter = filters.at(-1);
+    result.fillColor = lastFilter.fillColor;
+    result.strokeColor = lastFilter.strokeColor;
+    result.strokeWidth = lastFilter.strokeWidth;
+
+    onUpdateImage(result);
+};
+
 const shouldShowMask = function () {
     const items = getSelectedRootItems();
     if (items.length < 2) {
@@ -53,9 +72,19 @@ const shouldShowSubtract = function () {
     return true;
 };
 
+const shouldShowFilter = function () {
+    const items = getSelectedRootItems();
+    if (items.length < 2) {
+        return false;
+    }
+    return true;
+};
+
 export {
     mask,
     subtract,
+    filter,
     shouldShowMask,
-    shouldShowSubtract
+    shouldShowSubtract,
+    shouldShowFilter
 }

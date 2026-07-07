@@ -6,7 +6,7 @@ import MediaQuery from 'react-responsive';
 
 import {shouldShowGroup, shouldShowUngroup} from '../../helper/group';
 import {shouldShowBringForward, shouldShowSendBackward} from '../../helper/order';
-import {shouldShowMask, shouldShowSubtract} from '../../helper/intersecting.js';
+import {shouldShowMask, shouldShowSubtract, shouldShowFilter} from '../../helper/intersecting.js';
 
 import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
 import Button from '../button/button.jsx';
@@ -32,6 +32,7 @@ import undoIcon from '!../../tw-recolor/build!./icons/undo.svg';
 import ungroupIcon from '!../../tw-recolor/build!./icons/ungroup.svg';
 import maskIcon from '!../../tw-recolor/build!./icons/mask.svg';
 import subtractIcon from '!../../tw-recolor/build!./icons/subtract.svg';
+import filterIcon from '!../../tw-recolor/build!./icons/filter.svg';
 import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
@@ -90,6 +91,11 @@ const messages = defineMessages({
         defaultMessage: 'Subtract',
         description: 'Label for the `Subtract intersections` button',
         id: 'paint.paintEditor.subtract'
+    },
+    filter: {
+        defaultMessage: 'Filter',
+        description: 'Label for the `Filter intersections` button',
+        id: 'paint.paintEditor.filter'
     },
     more: {
         defaultMessage: 'More',
@@ -244,7 +250,7 @@ const FixedToolsComponent = props => {
                 </MediaQuery> : null
             }
             
-            {/* Masking & Subtracting */}
+            {/* Intersection Modifiers */}
             {isVector(props.format) ?
                 <InputGroup className={styles.row}>
                     <LabeledIconButton
@@ -260,6 +266,13 @@ const FixedToolsComponent = props => {
                         imgSrc={subtractIcon}
                         title={props.intl.formatMessage(messages.subtract)}
                         onClick={props.onSubtract}
+                    />
+                    <LabeledIconButton
+                        disabled={!shouldShowFilter()}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={filterIcon}
+                        title={props.intl.formatMessage(messages.filter)}
+                        onClick={props.onFilter}
                     />
                 </InputGroup> : null
             }
