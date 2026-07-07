@@ -4,12 +4,15 @@ const mask = function (onUpdateImage) {
     const [target, ...masks] = getSelectedRootItems();
     let result = target;
 
-    masks.forEach(mask => {
+    for (let i = 0; i < masks.length; i++) {
+        const mask = masks[i];
         let next = result.intersect(mask);
         mask.remove();
-        result.remove();
+        if (i > 0) {
+            result.remove();
+        }
         result = next;
-    });
+    };
 
     const lastMask = masks.at(-1);
     result.fillColor = lastMask.fillColor;
