@@ -99,6 +99,7 @@ const shouldShowFilter = function () {
     return true;
 };
 
+// :D
 const shouldShowMerge = function () {
     const items = getSelectedRootItems();
     if (items.length < 2) {
