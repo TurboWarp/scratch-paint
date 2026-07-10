@@ -6,7 +6,7 @@ const mask = function (onUpdateImage) {
 
     for (let i = 0; i < masks.length; i++) {
         const mask = masks[i];
-        let next = result.intersect(mask);
+        const next = result.intersect(mask);
         mask.remove();
         if (i > 0) {
             result.remove();
@@ -39,20 +39,22 @@ const subtract = function (onUpdateImage) {
 
 const filter = function (onUpdateImage) {
     const [target, ...filters] = getSelectedRootItems();
-    let result = target;
+    let result = target.clone();
 
-    filters.forEach(filter => {
-        let next = result.intersect(filter);
-        filter.remove();
+    for (const filter of filters) {
+        const next = result.intersect(filter);
         result.remove();
         result = next;
+    }
+
+    filters.forEach(filter => {
+        filter.subtract(result);
+        filter.remove();
+        onUpdateImage(filter);
     });
-
-    const lastFilter = filters.at(-1);
-    result.fillColor = lastFilter.fillColor;
-    result.strokeColor = lastFilter.strokeColor;
-    result.strokeWidth = lastFilter.strokeWidth;
-
+    target.subtract(result);
+    result.remove();
+    target.remove();
     onUpdateImage(result);
 };
 
@@ -61,7 +63,7 @@ const merge = function (onUpdateImage) {
     let result = target;
 
     mergers.forEach(filter => {
-        let next = result.unite(filter);
+        const next = result.unite(filter);
         filter.remove();
         result.remove();
         result = next;
@@ -99,7 +101,6 @@ const shouldShowFilter = function () {
     return true;
 };
 
-// :D
 const shouldShowMerge = function () {
     const items = getSelectedRootItems();
     if (items.length < 2) {
