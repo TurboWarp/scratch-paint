@@ -6,7 +6,6 @@ import MediaQuery from 'react-responsive';
 
 import {shouldShowGroup, shouldShowUngroup} from '../../helper/group';
 import {shouldShowBringForward, shouldShowSendBackward} from '../../helper/order';
-import {shouldShowMask, shouldShowSubtract, shouldShowFilter} from '../../helper/intersecting.js';
 
 import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
 import Button from '../button/button.jsx';
@@ -30,9 +29,6 @@ import sendForwardIcon from '!../../tw-recolor/build!./icons/send-forward.svg';
 import sendFrontIcon from '!../../tw-recolor/build!./icons/send-front.svg';
 import undoIcon from '!../../tw-recolor/build!./icons/undo.svg';
 import ungroupIcon from '!../../tw-recolor/build!./icons/ungroup.svg';
-import maskIcon from '!../../tw-recolor/build!./icons/mask.svg';
-import subtractIcon from '!../../tw-recolor/build!./icons/subtract.svg';
-import filterIcon from '!../../tw-recolor/build!./icons/filter.svg';
 import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
@@ -81,21 +77,6 @@ const messages = defineMessages({
         defaultMessage: 'Back',
         description: 'Label for the `Send to back of canvas` button',
         id: 'paint.paintEditor.back'
-    },
-    mask: {
-        defaultMessage: 'Mask',
-        description: 'Label for the `Mask intersections` button',
-        id: 'paint.paintEditor.mask'
-    },
-    subtract: {
-        defaultMessage: 'Subtract',
-        description: 'Label for the `Subtract intersections` button',
-        id: 'paint.paintEditor.subtract'
-    },
-    filter: {
-        defaultMessage: 'Filter',
-        description: 'Label for the `Filter intersections` button',
-        id: 'paint.paintEditor.filter'
     },
     more: {
         defaultMessage: 'More',
@@ -249,35 +230,6 @@ const FixedToolsComponent = props => {
                     </InputGroup> */}
                 </MediaQuery> : null
             }
-            
-            {/* Intersection Modifiers */}
-            {isVector(props.format) ?
-                <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
-                    <InputGroup className={styles.row}>
-                        <LabeledIconButton
-                            disabled={!shouldShowMask()}
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={maskIcon}
-                            title={props.intl.formatMessage(messages.mask)}
-                            onClick={props.onMask}
-                        />
-                        <LabeledIconButton
-                            disabled={!shouldShowSubtract()}
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={subtractIcon}
-                            title={props.intl.formatMessage(messages.subtract)}
-                            onClick={props.onSubtract}
-                        />
-                        <LabeledIconButton
-                            disabled={!shouldShowFilter()}
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={filterIcon}
-                            title={props.intl.formatMessage(messages.filter)}
-                            onClick={props.onFilter}
-                        />
-                    </InputGroup>
-                </MediaQuery> : null
-            }
             {isVector(props.format) ?
                 <MediaQuery maxWidth={layout.fullSizeEditorMinWidth - 1}>
                     <InputGroup>
@@ -316,48 +268,6 @@ const FixedToolsComponent = props => {
                                             src={sendBackIcon}
                                         />
                                         <span>{props.intl.formatMessage(messages.back)}</span>
-                                    </Button>
-                                    <Button
-                                        className={classNames(styles.modMenuItem, {
-                                            [styles.modDisabled]: !shouldShowMask()
-                                        })}
-                                        disabled={!shouldShowMask()}
-                                        onClick={props.onMask}
-                                    >
-                                        <TWRenderRecoloredImage
-                                            className={styles.menuItemIcon}
-                                            draggable={false}
-                                            src={maskIcon}
-                                        />
-                                        <span>{props.intl.formatMessage(messages.mask)}</span>
-                                    </Button>
-                                    <Button
-                                        className={classNames(styles.modMenuItem, {
-                                            [styles.modDisabled]: !shouldShowSubtract()
-                                        })}
-                                        disabled={!shouldShowSubtract()}
-                                        onClick={props.onSubtract}
-                                    >
-                                        <TWRenderRecoloredImage
-                                            className={styles.menuItemIcon}
-                                            draggable={false}
-                                            src={subtractIcon}
-                                        />
-                                        <span>{props.intl.formatMessage(messages.subtract)}</span>
-                                    </Button>
-                                    <Button
-                                        className={classNames(styles.modMenuItem, {
-                                            [styles.modDisabled]: !shouldShowFilter()
-                                        })}
-                                        disabled={!shouldShowFilter()}
-                                        onClick={props.onFilter}
-                                    >
-                                        <TWRenderRecoloredImage
-                                            className={styles.menuItemIcon}
-                                            draggable={false}
-                                            src={filterIcon}
-                                        />
-                                        <span>{props.intl.formatMessage(messages.filter)}</span>
                                     </Button>
 
                                     {/* To be rotation point */}

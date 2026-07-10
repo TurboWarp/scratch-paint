@@ -42,11 +42,17 @@ import flipHorizontalIcon from '!../../tw-recolor/build!./icons/flip-horizontal.
 import flipVerticalIcon from '!../../tw-recolor/build!./icons/flip-vertical.svg';
 import centerIcon from '!../../tw-recolor/build!./icons/center.svg';
 import straightPointIcon from '!../../tw-recolor/build!./icons/straight-point.svg';
+import maskIcon from '!../../tw-recolor/build!./icons/mask.svg';
+import subtractIcon from '!../../tw-recolor/build!./icons/subtract.svg';
+import filterIcon from '!../../tw-recolor/build!./icons/filter.svg';
+import mergeIcon from '!../../tw-recolor/build!./icons/merge.svg';
 import roundRectIcon from '../rounded-rect-mode/rounded-rectangle.svg';
 import bitOvalIcon from '../bit-oval-mode/oval.svg';
 import bitRectIcon from '../bit-rect-mode/rectangle.svg';
 import bitOvalOutlinedIcon from '../bit-oval-mode/oval-outlined.svg';
 import bitRectOutlinedIcon from '../bit-rect-mode/rectangle-outlined.svg';
+
+import {shouldShowMask, shouldShowSubtract, shouldShowFilter, shouldShowMerge} from '../../helper/intersecting.js';
 
 import {MAX_STROKE_WIDTH} from '../../reducers/stroke-width';
 
@@ -127,6 +133,26 @@ const ModeToolsComponent = props => {
             defaultMessage: 'Rectangle Curve',
             description: 'Label for the rectangle curve input',
             id: 'paint.modeTools.rectRadius'
+        },
+        mask: {
+            defaultMessage: 'Mask',
+            description: 'Label for the `Mask intersections` button',
+            id: 'paint.paintEditor.mask'
+        },
+        subtract: {
+            defaultMessage: 'Subtract',
+            description: 'Label for the `Subtract intersections` button',
+            id: 'paint.paintEditor.subtract'
+        },
+        filter: {
+            defaultMessage: 'Filter',
+            description: 'Label for the `Filter intersections` button',
+            id: 'paint.paintEditor.filter'
+        },
+        merge: {
+            defaultMessage: 'Merge',
+            description: 'Label for the `Merge objects` button',
+            id: 'paint.paintEditor.merge'
         },
         more: {
             defaultMessage: 'More',
@@ -262,7 +288,7 @@ const ModeToolsComponent = props => {
                     />
                 </InputGroup>
                 <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
-                    <InputGroup className={classNames(styles.modLabeledIconHeight)}>
+                    <InputGroup className={classNames(styles.modDashedBorder)}>
                         <LabeledIconButton
                             hideLabel={props.intl.locale !== 'en'}
                             imgSrc={flipHorizontalIcon}
@@ -280,6 +306,38 @@ const ModeToolsComponent = props => {
                             imgSrc={centerIcon}
                             title={props.intl.formatMessage(messages.center)}
                             onClick={props.onCenterSelection}
+                        />
+                    </InputGroup>
+                </MediaQuery>
+                <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
+                    <InputGroup className={styles.row}>
+                        <LabeledIconButton
+                            disabled={!shouldShowMask()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={maskIcon}
+                            title={props.intl.formatMessage(messages.mask)}
+                            onClick={props.onMask}
+                        />
+                        <LabeledIconButton
+                            disabled={!shouldShowFilter()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={filterIcon}
+                            title={props.intl.formatMessage(messages.filter)}
+                            onClick={props.onFilter}
+                        />
+                        <LabeledIconButton
+                            disabled={!shouldShowSubtract()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={subtractIcon}
+                            title={props.intl.formatMessage(messages.subtract)}
+                            onClick={props.onSubtract}
+                        />
+                        <LabeledIconButton
+                            disabled={!shouldShowMerge()}
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={mergeIcon}
+                            title={props.intl.formatMessage(messages.merge)}
+                            onClick={props.onMerge}
                         />
                     </InputGroup>
                 </MediaQuery>

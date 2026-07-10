@@ -56,6 +56,25 @@ const filter = function (onUpdateImage) {
     onUpdateImage(result);
 };
 
+const merge = function (onUpdateImage) {
+    const [target, ...mergers] = getSelectedRootItems();
+    let result = target;
+
+    mergers.forEach(filter => {
+        let next = result.unite(filter);
+        filter.remove();
+        result.remove();
+        result = next;
+    });
+
+    const lastMerge = mergers.at(-1);
+    result.fillColor = lastMerge.fillColor;
+    result.strokeColor = lastMerge.strokeColor;
+    result.strokeWidth = lastMerge.strokeWidth;
+
+    onUpdateImage(result);
+};
+
 const shouldShowMask = function () {
     const items = getSelectedRootItems();
     if (items.length < 2) {
@@ -80,11 +99,21 @@ const shouldShowFilter = function () {
     return true;
 };
 
+const shouldShowMerge = function () {
+    const items = getSelectedRootItems();
+    if (items.length < 2) {
+        return false;
+    }
+    return true;
+};
+
 export {
     mask,
     subtract,
     filter,
+    merge,
     shouldShowMask,
     shouldShowSubtract,
-    shouldShowFilter
+    shouldShowFilter,
+    shouldShowMerge
 }
