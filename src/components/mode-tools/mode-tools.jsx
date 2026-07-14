@@ -52,8 +52,6 @@ import bitRectIcon from '../bit-rect-mode/rectangle.svg';
 import bitOvalOutlinedIcon from '../bit-oval-mode/oval-outlined.svg';
 import bitRectOutlinedIcon from '../bit-rect-mode/rectangle-outlined.svg';
 
-import {shouldShowMask, shouldShowSubtract, shouldShowFilter, shouldShowMerge} from '../../helper/intersecting.js';
-
 import {MAX_STROKE_WIDTH} from '../../reducers/stroke-width';
 
 const LiveInput = LiveInputHOC(Input);
@@ -312,28 +310,24 @@ const ModeToolsComponent = props => {
                 <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
                     <InputGroup className={styles.row}>
                         <LabeledIconButton
-                            disabled={!shouldShowMask()}
                             hideLabel={hideLabel(props.intl.locale)}
                             imgSrc={maskIcon}
                             title={props.intl.formatMessage(messages.mask)}
                             onClick={props.onMask}
                         />
                         <LabeledIconButton
-                            disabled={!shouldShowFilter()}
                             hideLabel={hideLabel(props.intl.locale)}
                             imgSrc={filterIcon}
                             title={props.intl.formatMessage(messages.filter)}
                             onClick={props.onFilter}
                         />
                         <LabeledIconButton
-                            disabled={!shouldShowSubtract()}
                             hideLabel={hideLabel(props.intl.locale)}
                             imgSrc={subtractIcon}
                             title={props.intl.formatMessage(messages.subtract)}
                             onClick={props.onSubtract}
                         />
                         <LabeledIconButton
-                            disabled={!shouldShowMerge()}
                             hideLabel={hideLabel(props.intl.locale)}
                             imgSrc={mergeIcon}
                             title={props.intl.formatMessage(messages.merge)}

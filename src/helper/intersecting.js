@@ -77,45 +77,9 @@ const merge = function (onUpdateImage) {
     onUpdateImage(result);
 };
 
-const shouldShowMask = function () {
-    const items = getSelectedRootItems();
-    if (items.length < 2) {
-        return false;
-    }
-    return true;
-};
-
-const shouldShowSubtract = function () {
-    const items = getSelectedRootItems();
-    if (items.length < 2) {
-        return false;
-    }
-    return true;
-};
-
-const shouldShowFilter = function () {
-    const items = getSelectedRootItems();
-    if (items.length < 2) {
-        return false;
-    }
-    return true;
-};
-
-const shouldShowMerge = function () {
-    const items = getSelectedRootItems();
-    if (items.length < 2) {
-        return false;
-    }
-    return true;
-};
-
 export {
     mask,
     subtract,
     filter,
-    merge,
-    shouldShowMask,
-    shouldShowSubtract,
-    shouldShowFilter,
-    shouldShowMerge
+    merge
 }
