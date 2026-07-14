@@ -252,7 +252,61 @@ const ModeToolsComponent = props => {
             </div>
         );
     case Modes.BIT_SELECT:
-        /* falls through */
+        return (
+            <div className={classNames(props.className, styles.modeTools)}>
+                <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                    <LabeledIconButton
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={copyIcon}
+                        title={props.intl.formatMessage(messages.copy)}
+                        onClick={props.onCopyToClipboard}
+                    />
+                    <LabeledIconButton
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={cutIcon}
+                        title={props.intl.formatMessage(messages.cut)}
+                        onClick={props.onCutToClipboard}
+                    />
+                    <LabeledIconButton
+                        disabled={!(props.clipboardItems.length > 0)}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={pasteIcon}
+                        title={props.intl.formatMessage(messages.paste)}
+                        onClick={props.onPasteFromClipboard}
+                    />
+                </InputGroup>
+                <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                    <LabeledIconButton
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={deleteIcon}
+                        title={props.intl.formatMessage(messages.delete)}
+                        onClick={props.onDelete}
+                    />
+                </InputGroup>
+                <MediaQuery minWidth={layout.fullSizeEditorMinWidth}>
+                    <InputGroup className={classNames(styles.modDashedBorder)}>
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={flipHorizontalIcon}
+                            title={props.intl.formatMessage(messages.flipHorizontal)}
+                            onClick={props.onFlipHorizontal}
+                        />
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={flipVerticalIcon}
+                            title={props.intl.formatMessage(messages.flipVertical)}
+                            onClick={props.onFlipVertical}
+                        />
+                        <LabeledIconButton
+                            hideLabel={props.intl.locale !== 'en'}
+                            imgSrc={centerIcon}
+                            title={props.intl.formatMessage(messages.center)}
+                            onClick={props.onCenterSelection}
+                        />
+                    </InputGroup>
+                </MediaQuery>
+            </div>
+        )
     case Modes.SELECT:
         return (
             <div className={classNames(props.className, styles.modeTools)}>
