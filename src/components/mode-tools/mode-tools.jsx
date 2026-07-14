@@ -306,7 +306,7 @@ const ModeToolsComponent = props => {
                     </InputGroup>
                 </MediaQuery>
             </div>
-        )
+        );
     case Modes.SELECT:
         return (
             <div className={classNames(props.className, styles.modeTools)}>
