@@ -243,21 +243,25 @@ class ModeTools extends React.Component {
     handleMask () {
         if (this.props.selectedItems.length >= 2){
             mask(this.props.onUpdateImage);
+            this.props.onUpdateImage();
         }
     }
     handleSubtract() {
         if (this.props.selectedItems.length >= 2){
             subtract(this.props.onUpdateImage);
+            this.props.onUpdateImage();
         }
     }
     handleFilter() {
         if (this.props.selectedItems.length >= 2){
             filter(this.props.onUpdateImage);
+            this.props.onUpdateImage();
         }
     }
     handleMerge() {
         if (this.props.selectedItems.length >= 2){
             merge(this.props.onUpdateImage);
+            this.props.onUpdateImage();
         }
     }
     render () {
