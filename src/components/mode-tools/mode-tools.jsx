@@ -383,6 +383,58 @@ const ModeToolsComponent = props => {
                                             <span>{props.intl.formatMessage(messages.center)}</span>
                                         }
                                     </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onMask}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={maskIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.mask)}</span>
+                                        }
+                                    </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onFilter}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={filterIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.filter)}</span>
+                                        }
+                                    </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onSubtract}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={subtractIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.subtract)}</span>
+                                        }
+                                    </Button>
+                                    <Button
+                                        className={styles.modMenuItem}
+                                        onClick={props.onMerge}
+                                    >
+                                        <TWRenderRecoloredImage
+                                            className={styles.menuItemIcon}
+                                            draggable={false}
+                                            src={mergeIcon}
+                                        />
+                                        {props.intl.locale === 'en' &&
+                                            <span>{props.intl.formatMessage(messages.merge)}</span>
+                                        }
+                                    </Button>
                                 </InputGroup>
                             }
                             tipSize={.01}
